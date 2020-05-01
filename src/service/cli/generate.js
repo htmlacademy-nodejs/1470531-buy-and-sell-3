@@ -10,8 +10,9 @@ const {
   TITLES,
   OFFER_TYPES,
   pictureSettings,
-  SumRestrict
-} = require(`../../constatnts`);
+  SumRestrict,
+  ExitCode
+} = require(`../../constants`);
 
 const getCategories = () => [...new Set(
     Array(getRandomInt(0, CATEGORIES.length - 1)).fill({}).map(
@@ -36,10 +37,14 @@ const generateOffers = (count) => {
 
   fs.writeFile(FILE_NAME, content, (err) => {
     if (err) {
-      return console.error(`Can't write data to file...`);
+      console.error(`Can't write data to file...`);
+
+      return process.exit(ExitCode.error);
     }
 
-    return console.info(`Operation success. File created.`);
+    console.info(`Operation success. File created.`);
+
+    return process.exit(ExitCode.success);
   });
 };
 
