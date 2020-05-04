@@ -1,5 +1,7 @@
 'use strict';
 
+const chalk = require(`chalk`);
+
 const helpMessage = `
 Программа формирует файл с данными для API.
 
@@ -15,6 +17,6 @@ const helpMessage = `
 module.exports = {
   name: `--help`,
   run() {
-    return console.info(helpMessage);
+    return console.info(chalk.gray(helpMessage));
   }
 };
