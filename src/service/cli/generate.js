@@ -35,7 +35,7 @@ const generateOffers = (count) => {
   const countOffers = Number.parseInt(count, 10);
   const content = JSON.stringify(getOffers(countOffers));
 
-  fs.writeFile(FILE_NAME, content, (err) => {
+  fs.writeFile(`../../${FILE_NAME}`, content, (err) => {
     if (err) {
       console.error(`Can't write data to file...`);
 
