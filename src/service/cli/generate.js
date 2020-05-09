@@ -39,7 +39,7 @@ module.exports = {
     const content = JSON.stringify(getOffers(countOffers));
 
     try {
-      await fs.writeFile(`${FILE_NAME}`, content);
+      await fs.writeFile(FILE_NAME, content);
       console.info(chalk.green(`Operation success. File created.`));
 
       return ExitCode.success;
