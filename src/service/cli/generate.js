@@ -32,25 +32,21 @@ const getOffers = (count = DEFAULT_COUNT) => (
   }))
 );
 
-const generateOffers = async (count) => {
-  const countOffers = Number.parseInt(count, 10);
-  const content = JSON.stringify(getOffers(countOffers));
-
-  try {
-    await fs.writeFile(`../../${FILE_NAME}`, content);
-    console.info(chalk.green(`Operation success. File created.`));
-
-    return process.exit(ExitCode.success);
-  } catch (err) {
-    console.error(chalk.red(`Can't write data to file...`, err));
-
-    return process.exit(ExitCode.error);
-  }
-};
-
 module.exports = {
   name: `--generate`,
-  run(args) {
-    generateOffers(args);
+  async run(count) {
+    const countOffers = Number.parseInt(count, 10);
+    const content = JSON.stringify(getOffers(countOffers));
+
+    try {
+      await fs.writeFile(`../../${FILE_NAME}`, content);
+      console.info(chalk.green(`Operation success. File created.`));
+
+      return process.exit(ExitCode.success);
+    } catch (err) {
+      console.error(chalk.red(`Can't write data to file...`, err));
+
+      return process.exit(ExitCode.error);
+    }
   }
 };
