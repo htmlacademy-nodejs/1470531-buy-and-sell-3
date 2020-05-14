@@ -1,50 +1,69 @@
 'use strict';
 
 const fs = require(`fs`).promises;
-const chalk = require(`chalk`);
-const {shuffle, getRandomInt} = require(`../../utils`);
+const {shuffle, getRandomInt, logger} = require(`../../utils`);
 const {
-  CATEGORIES,
   DEFAULT_COUNT,
-  DESCRIPTIONS,
   FILE_NAME,
-  TITLES,
+  FILE_SENTENCES_PATH,
+  FILE_CATEGORIES_PATH,
+  FILE_TITLES_PATH,
   OFFER_TYPES,
   pictureSettings,
   SumRestrict,
   ExitCode
 } = require(`../../constants`);
 
-const getCategories = () => [...new Set(
-    Array(getRandomInt(0, CATEGORIES.length - 1)).fill({}).map(
-        () => CATEGORIES[getRandomInt(0, CATEGORIES.length - 1)]
+const getCategories = (data) => [...new Set(
+    Array(getRandomInt(0, data.length - 1)).fill({}).map(
+        () => data[getRandomInt(0, data.length - 1)]
     )
 )];
 
-const getOffers = (count = DEFAULT_COUNT) => (
-  Array(count).fill({}).map(() => ({
-    title: TITLES[getRandomInt(0, TITLES.length - 1)],
-    picture: `item${getRandomInt(pictureSettings.min, pictureSettings.max)}.jpg`,
-    description: shuffle(DESCRIPTIONS).slice(1, 5).join(` `),
-    type: OFFER_TYPES[getRandomInt()],
-    sum: getRandomInt(SumRestrict.min, SumRestrict.max),
-    category: getCategories()
-  }))
+const readContent = async (path) => {
+  try {
+    const content = await fs.readFile(path, `utf-8`);
+
+    return content.split(`\n`);
+  } catch (err) {
+    logger.error(err);
+
+    return [];
+  }
+};
+
+const getOffers = (count = DEFAULT_COUNT, titles, categories, sentences) => (
+  JSON.stringify(
+      Array(count)
+        .fill({})
+        .map(() => ({
+          title: titles[getRandomInt(0, titles.length - 1)],
+          picture: `item${getRandomInt(pictureSettings.min, pictureSettings.max)}.jpg`,
+          description: shuffle(sentences).slice(1, 5).join(` `),
+          type: OFFER_TYPES[getRandomInt()],
+          sum: getRandomInt(SumRestrict.min, SumRestrict.max),
+          category: getCategories(categories)
+        }))
+  )
 );
 
 module.exports = {
   name: `--generate`,
   async run(count) {
+    const titles = await readContent(FILE_TITLES_PATH);
+    const categories = await readContent(FILE_CATEGORIES_PATH);
+    const sentences = await readContent(FILE_SENTENCES_PATH);
+
     const countOffers = Number.parseInt(count, 10);
-    const content = JSON.stringify(getOffers(countOffers));
+    const content = getOffers(countOffers, titles, categories, sentences);
 
     try {
       await fs.writeFile(FILE_NAME, content);
-      console.info(chalk.green(`Operation success. File created.`));
+      logger.success(`Operation success. File created.`);
 
       return ExitCode.success;
     } catch (err) {
-      console.error(chalk.red(`Can't write data to file...`, err));
+      logger.error(err);
 
       return ExitCode.error;
     }

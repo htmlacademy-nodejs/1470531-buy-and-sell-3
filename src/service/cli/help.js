@@ -1,7 +1,7 @@
 'use strict';
 
-const chalk = require(`chalk`);
 const {ExitCode} = require(`../../constants`);
+const {logger} = require(`../../utils`);
 
 const helpMessage = `
 Программа формирует файл с данными для API.
@@ -18,7 +18,7 @@ const helpMessage = `
 module.exports = {
   name: `--help`,
   run() {
-    console.info(chalk.gray(helpMessage));
+    logger.data(helpMessage);
 
     return ExitCode.success;
   }
