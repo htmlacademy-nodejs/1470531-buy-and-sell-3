@@ -24,7 +24,7 @@ const readContent = async (path) => {
   try {
     const content = await fs.readFile(path, `utf-8`);
 
-    return content.split(`/n`);
+    return content.split(`\n`);
   } catch (err) {
     logger.error(err);
 
@@ -33,15 +33,19 @@ const readContent = async (path) => {
 };
 
 const getOffers = (count = DEFAULT_COUNT, titles, categories, sentences) => (
-  JSON.stringify(Array(count).fill({}).map(() => ({
-    title: titles[getRandomInt(0, titles.length - 1)],
-    picture: `item${getRandomInt(pictureSettings.min, pictureSettings.max)}.jpg`,
-    description: shuffle(categories).slice(1, 5).join(` `),
-    type: OFFER_TYPES[getRandomInt()],
-    sum: getRandomInt(SumRestrict.min, SumRestrict.max),
-    category: getCategories(sentences)
-  }))
-  ));
+  JSON.stringify(
+      Array(count)
+        .fill({})
+        .map(() => ({
+          title: titles[getRandomInt(0, titles.length - 1)],
+          picture: `item${getRandomInt(pictureSettings.min, pictureSettings.max)}.jpg`,
+          description: shuffle(sentences).slice(1, 5).join(` `),
+          type: OFFER_TYPES[getRandomInt()],
+          sum: getRandomInt(SumRestrict.min, SumRestrict.max),
+          category: getCategories(categories)
+        }))
+  )
+);
 
 module.exports = {
   name: `--generate`,
