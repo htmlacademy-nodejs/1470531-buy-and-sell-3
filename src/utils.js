@@ -21,7 +21,7 @@ const logger = {
   info: (message) => console.info(chalk.blue(message)),
   data: (message) => console.info(chalk.gray(message)),
   success: (message) => console.info(chalk.green(message)),
-  error: (message) => console.info(chalk.red(message)),
+  error: (message) => console.error(chalk.red(message)),
 };
 
 module.exports = {
