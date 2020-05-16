@@ -31,6 +31,7 @@ const ExitCode = {
 
 const Message = {
   notFound: `Sorry, page not found`,
+  fileCreated: `Operation success. File created.`,
   listenOnPort: (port) => `Listening for connections on http://localhost:${port}`
 };
 
