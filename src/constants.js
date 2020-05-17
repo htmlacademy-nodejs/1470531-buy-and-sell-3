@@ -29,6 +29,22 @@ const ExitCode = {
   error: 1
 };
 
+const Message = {
+  notFound: `Sorry, page not found`,
+  fileCreated: `Operation success. File created.`,
+  listenOnPort: (port) => `Listening for connections on http://localhost:${port}`
+};
+
+const DEFAULT_PORT = 3000;
+
+const HttpCode = {
+  OK: 200,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+  FORBIDDEN: 403,
+  UNAUTHORIZED: 401,
+};
+
 module.exports = {
   DEFAULT_COUNT,
   FILE_NAME,
@@ -40,5 +56,8 @@ module.exports = {
   SumRestrict,
   USER_ARGV_INDEX,
   DEFAULT_COMMAND,
-  ExitCode
+  ExitCode,
+  DEFAULT_PORT,
+  HttpCode,
+  Message
 };

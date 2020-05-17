@@ -11,7 +11,8 @@ const {
   OFFER_TYPES,
   pictureSettings,
   SumRestrict,
-  ExitCode
+  ExitCode,
+  Message
 } = require(`../../constants`);
 
 const getCategories = (data) => [...new Set(
@@ -59,7 +60,7 @@ module.exports = {
 
     try {
       await fs.writeFile(FILE_NAME, content);
-      logger.success(`Operation success. File created.`);
+      logger.success(Message.fileCreated);
 
       return ExitCode.success;
     } catch (err) {
