@@ -36,6 +36,7 @@ const Message = {
 };
 
 const DEFAULT_PORT = 3000;
+const DEFAULT_SERVER_PORT = 8080;
 
 const HttpCode = {
   OK: 200,
@@ -58,6 +59,7 @@ module.exports = {
   DEFAULT_COMMAND,
   ExitCode,
   DEFAULT_PORT,
+  DEFAULT_SERVER_PORT,
   HttpCode,
   Message
 };
