@@ -38,7 +38,7 @@ module.exports = {
         return logger.success(Message.listenOnPort(port));
       });
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
   }
 };
