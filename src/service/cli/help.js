@@ -1,7 +1,7 @@
 'use strict';
 
 const {ExitCode} = require(`../../constants`);
-const {logger} = require(`../../utils`);
+const {messageLogger} = require(`../../utils`);
 
 const helpMessage = `
 Программа формирует файл с данными для API.
@@ -19,7 +19,7 @@ const helpMessage = `
 module.exports = {
   name: `--help`,
   run() {
-    logger.data(helpMessage);
+    messageLogger.data(helpMessage);
 
     return ExitCode.success;
   }

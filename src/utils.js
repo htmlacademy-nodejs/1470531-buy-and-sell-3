@@ -17,7 +17,7 @@ const shuffle = (someArray) => {
   return someArray;
 };
 
-const logger = {
+const messageLogger = {
   info: (message) => console.info(chalk.blue(message)),
   data: (message) => console.info(chalk.gray(message)),
   success: (message) => console.info(chalk.green(message)),
@@ -27,5 +27,5 @@ const logger = {
 module.exports = {
   getRandomInt,
   shuffle,
-  logger
+  messageLogger
 };
