@@ -2,10 +2,11 @@
 
 const express = require(`express`);
 const fs = require(`fs`).promises;
-const {logger} = require(`../../utils`);
+const {getLogger} = require(`../../../lib/logger`);
 const {FILE_NAME, DEFAULT_API_PORT, HttpCode, Message} = require(`../../constants`);
 
 const app = express();
+const logger = getLogger();
 
 app.use(express.json());
 
@@ -34,11 +35,10 @@ module.exports = {
         if (err) {
           return logger.error(err);
         }
-
-        return logger.success(Message.listenOnPort(port));
+        return logger.info(Message.serverStartOn(port));
       });
     } catch (err) {
-      logger.error(err);
+      logger.error(Message.serverStartError(port, err));
     }
   }
 };
