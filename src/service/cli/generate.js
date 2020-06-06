@@ -2,7 +2,7 @@
 
 const fs = require(`fs`).promises;
 const {nanoid} = require(`nanoid`);
-const {shuffle, getRandomInt, messageLogger} = require(`../../utils`);
+const {shuffle, getRandomInt, logger} = require(`../../utils`);
 const {
   DEFAULT_COUNT,
   FILE_NAME,
@@ -31,7 +31,7 @@ const readContent = async (path) => {
 
     return content.split(`\n`);
   } catch (err) {
-    messageLogger.error(err);
+    logger.error(err);
 
     return [];
   }
@@ -76,11 +76,11 @@ module.exports = {
 
     try {
       await fs.writeFile(FILE_NAME, content);
-      messageLogger.success(Message.fileCreated);
+      logger.success(Message.fileCreated);
 
       return ExitCode.success;
     } catch (err) {
-      messageLogger.error(err);
+      logger.error(err);
 
       return ExitCode.error;
     }
