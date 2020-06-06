@@ -1,5 +1,7 @@
 'use strict';
 
+const API_PREFIX = `/api`;
+
 const DEFAULT_COUNT = 1;
 
 const FILE_NAME = `mocks.json`;
@@ -47,13 +49,16 @@ const DEFAULT_FRONT_PORT = 8080;
 
 const HttpCode = {
   OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
   NOT_FOUND: 404,
   INTERNAL_SERVER_ERROR: 500,
-  FORBIDDEN: 403,
-  UNAUTHORIZED: 401,
 };
 
 module.exports = {
+  API_PREFIX,
   DEFAULT_COUNT,
   FILE_NAME,
   FILE_SENTENCES_PATH,

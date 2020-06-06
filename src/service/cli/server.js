@@ -3,12 +3,20 @@
 const express = require(`express`);
 const fs = require(`fs`).promises;
 const {getLogger} = require(`../../../lib/logger`);
-const {FILE_NAME, DEFAULT_API_PORT, HttpCode, Message} = require(`../../constants`);
+const {
+  FILE_NAME,
+  DEFAULT_API_PORT,
+  HttpCode,
+  Message,
+  API_PREFIX
+} = require(`../../constants`);
+const routes = require(`../api`);
 
 const app = express();
 const logger = getLogger();
 
 app.use(express.json());
+app.use(API_PREFIX, routes);
 
 app.get(`/offers`, async (req, res) => {
   try {
