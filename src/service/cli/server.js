@@ -1,10 +1,8 @@
 'use strict';
 
 const express = require(`express`);
-const fs = require(`fs`).promises;
 const {logger} = require(`../../utils`);
 const {
-  FILE_NAME,
   DEFAULT_API_PORT,
   HttpCode,
   Message,
@@ -12,41 +10,38 @@ const {
 } = require(`../../constants`);
 const routes = require(`../api`);
 
-const app = express();
+const createApp = () => {
+  const app = express();
 
-app.use(express.json());
-app.use(API_PREFIX, routes);
+  app.use(express.json());
+  app.use(API_PREFIX, routes);
+  app.use((req, res) => res
+    .status(HttpCode.NOT_FOUND)
+    .send(`Not found`));
 
-app.get(`/offers`, async (req, res) => {
+  return app;
+};
+
+const run = (args) => {
+  const port = Number.parseInt(args, 10) || DEFAULT_API_PORT;
+  const app = createApp();
+
   try {
-    const fileContent = await fs.readFile(FILE_NAME);
-    const mocks = JSON.parse(fileContent);
+    app.listen(DEFAULT_API_PORT, (err) => {
+      if (err) {
+        logger.error(Message.serverStartError(port, err));
+      }
 
-    res.json(mocks);
+      return logger.success(Message.listenOnPort(port));
+    });
   } catch (err) {
-    res.status(HttpCode.INTERNAL_SERVER_ERROR).send(err);
+    logger.error(Message.serverStartError(port, err));
   }
-});
+};
 
-app.use((req, res) => res
-  .status(HttpCode.NOT_FOUND)
-  .send(`Not found`));
 
 module.exports = {
   name: `--server`,
-  run(args) {
-    const port = Number.parseInt(args, 10) || DEFAULT_API_PORT;
-
-    try {
-      app.listen(DEFAULT_API_PORT, (err) => {
-        if (err) {
-          logger.error(Message.serverStartError(port, err));
-        }
-
-        return logger.success(Message.listenOnPort(port));
-      });
-    } catch (err) {
-      logger.error(Message.serverStartError(port, err));
-    }
-  }
+  run,
+  createApp
 };
