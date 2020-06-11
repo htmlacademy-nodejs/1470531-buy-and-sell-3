@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require(`fs`).promises;
+const {nanoid} = require(`nanoid`);
 const {shuffle, getRandomInt, logger} = require(`../../utils`);
 const {
   DEFAULT_COUNT,
@@ -8,6 +9,9 @@ const {
   FILE_SENTENCES_PATH,
   FILE_CATEGORIES_PATH,
   FILE_TITLES_PATH,
+  FILE_COMMENTS_PATH,
+  MAX_COMMENTS,
+  MAX_ID_LENGTH,
   OFFER_TYPES,
   pictureSettings,
   SumRestrict,
@@ -33,11 +37,22 @@ const readContent = async (path) => {
   }
 };
 
-const getOffers = (count = DEFAULT_COUNT, titles, categories, sentences) => (
+const generateComments = (count, comments) => (
+  Array(count).fill({}).map(() => ({
+    id: nanoid(MAX_ID_LENGTH),
+    text: shuffle(comments)
+      .slice(0, getRandomInt(1, 3))
+      .join(` `),
+  }))
+);
+
+const getOffers = (count = DEFAULT_COUNT, titles, categories, sentences, comments) => (
   JSON.stringify(
       Array(count)
         .fill({})
         .map(() => ({
+          id: nanoid(MAX_ID_LENGTH),
+          comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments),
           title: titles[getRandomInt(0, titles.length - 1)],
           picture: `item${getRandomInt(pictureSettings.min, pictureSettings.max)}.jpg`,
           description: shuffle(sentences).slice(1, 5).join(` `),
@@ -54,9 +69,10 @@ module.exports = {
     const titles = await readContent(FILE_TITLES_PATH);
     const categories = await readContent(FILE_CATEGORIES_PATH);
     const sentences = await readContent(FILE_SENTENCES_PATH);
+    const comments = await readContent(FILE_COMMENTS_PATH);
 
     const countOffers = Number.parseInt(count, 10);
-    const content = getOffers(countOffers, titles, categories, sentences);
+    const content = getOffers(countOffers, titles, categories, sentences, comments);
 
     try {
       await fs.writeFile(FILE_NAME, content);

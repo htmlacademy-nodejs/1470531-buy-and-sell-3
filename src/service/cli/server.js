@@ -3,11 +3,19 @@
 const express = require(`express`);
 const fs = require(`fs`).promises;
 const {logger} = require(`../../utils`);
-const {FILE_NAME, DEFAULT_API_PORT, HttpCode, Message} = require(`../../constants`);
+const {
+  FILE_NAME,
+  DEFAULT_API_PORT,
+  HttpCode,
+  Message,
+  API_PREFIX
+} = require(`../../constants`);
+const routes = require(`../api`);
 
 const app = express();
 
 app.use(express.json());
+app.use(API_PREFIX, routes);
 
 app.get(`/offers`, async (req, res) => {
   try {
@@ -32,13 +40,13 @@ module.exports = {
     try {
       app.listen(DEFAULT_API_PORT, (err) => {
         if (err) {
-          return logger.error(err);
+          logger.error(Message.serverStartError(port, err));
         }
 
         return logger.success(Message.listenOnPort(port));
       });
     } catch (err) {
-      logger.error(err);
+      logger.error(Message.serverStartError(port, err));
     }
   }
 };
