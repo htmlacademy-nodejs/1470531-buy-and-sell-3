@@ -11,7 +11,9 @@ beforeAll(async () => {
 
 describe(`Search API end-points`, () => {
   test(`Should return status 200 on GET request`, async () => {
-    const res = await request(server).get(encodeURI(`/api/search?query=Продам`));
+    const offers = await request(server).get(`/api/offers`);
+    const firstOfferTitle = offers.body[0].title || ``;
+    const res = await request(server).get(encodeURI(`/api/search?query=${firstOfferTitle}`));
 
     expect(res.statusCode).toBe(200);
   });
@@ -20,5 +22,11 @@ describe(`Search API end-points`, () => {
     const res = await request(server).get(encodeURI(`/api/search?query=`));
 
     expect(res.statusCode).toBe(400);
+  });
+
+  test(`Should return status 404 for wrong request`, async () => {
+    const res = await request(server).get(encodeURI(`/api/search?query=${null}`));
+
+    expect(res.statusCode).toBe(404);
   });
 });
