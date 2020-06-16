@@ -23,9 +23,9 @@ const createApp = async () => {
   return app;
 };
 
-const run = (args) => {
+const run = async (args) => {
   const port = Number.parseInt(args, 10) || DEFAULT_API_PORT;
-  const app = createApp();
+  const app = await createApp();
 
   try {
     app.listen(DEFAULT_API_PORT, (err) => {
