@@ -10,18 +10,17 @@ const OfferService = require(`../data-service/offer`);
 const CommentService = require(`../data-service/comment`);
 const SearchService = require(`../data-service/search`);
 
-const app = new Router();
-
-const startApi = async () => {
+const createApi = async () => {
+  const app = new Router();
   const mockData = await getMockData();
 
   category(app, new CategoryService(mockData));
   search(app, new SearchService(mockData));
   offer(app, new OfferService(mockData), new CommentService());
+
+  return app;
 };
 
-startApi();
-
-module.exports = app;
+module.exports = createApi;
 
 

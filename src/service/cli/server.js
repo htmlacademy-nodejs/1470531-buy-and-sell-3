@@ -8,13 +8,14 @@ const {
   Message,
   API_PREFIX
 } = require(`../../constants`);
-const routes = require(`../api`);
+const createApi = require(`../api`);
 
-const createApp = () => {
+const createApp = async () => {
   const app = express();
+  const apiRoutes = await createApi();
 
   app.use(express.json());
-  app.use(API_PREFIX, routes);
+  app.use(API_PREFIX, apiRoutes);
   app.use((req, res) => res
     .status(HttpCode.NOT_FOUND)
     .send(`Not found`));

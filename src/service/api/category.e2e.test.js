@@ -3,7 +3,7 @@
 const request = require(`supertest`);
 const {createApp} = require(`../cli/server`);
 
-describe(`Categories`, async () => {
+describe(`Categories`, () => {
   test(`category test`, async () => {
     const server = await createApp();
     const res = await request(server).get(`/api/category`);
