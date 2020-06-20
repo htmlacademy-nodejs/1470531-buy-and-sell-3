@@ -9,10 +9,11 @@ const {
   API_PREFIX
 } = require(`../../constants`);
 const createApi = require(`../api`);
+const getMockData = require(`../lib/get-mock-data`);
 
-const createApp = async () => {
+const createApp = async (data) => {
   const app = express();
-  const apiRoutes = await createApi();
+  const apiRoutes = await createApi(data);
 
   app.use(express.json());
   app.use(API_PREFIX, apiRoutes);
@@ -25,7 +26,8 @@ const createApp = async () => {
 
 const run = async (args) => {
   const port = Number.parseInt(args, 10) || DEFAULT_API_PORT;
-  const app = await createApp();
+  const mockData = await getMockData();
+  const app = await createApp(mockData);
 
   try {
     app.listen(DEFAULT_API_PORT, (err) => {
