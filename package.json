@@ -5,9 +5,8 @@
   "main": "./src/service/service.js",
   "scripts": {
     "start": "node ./src/service/service.js",
-    "test": "npm run eslint & npm run test::jest",
-    "test::jest": "jest --config jest.config.js",
-    "test::rest": "npm run test::jest",
+    "test": "npm run eslint & npm run test::rest",
+    "test::rest": "jest --config jest.config.js",
     "test::watch": "npm run test::jest -- --watchAll",
     "eslint": "eslint --ext .js src/",
     "generate": "node ./src/service/service.js --generate 10",
