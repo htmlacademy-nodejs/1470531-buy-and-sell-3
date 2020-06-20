@@ -2,18 +2,26 @@
 
 const request = require(`supertest`);
 const {createApp} = require(`../cli/server`);
+const offerStubs = require(`../../../testStuff/offers-stubs`);
+const {HttpCode} = require(`../../constants`);
 
 let server;
 
 beforeAll(async () => {
-  server = await createApp();
+  server = await createApp(offerStubs);
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+  jest.resetAllMocks();
+  jest.restoreAllMocks();
 });
 
 describe(`Categories API end-points`, () => {
-  test(`Should return status 200 on GET request`, async () => {
+  test(`Should return status ${HttpCode.OK} on GET request`, async () => {
     const res = await request(server).get(`/api/category`);
 
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(HttpCode.OK);
   });
 
   test(`Should have at least one category`, async () => {
