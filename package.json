@@ -10,7 +10,8 @@
     "test::watch": "npm run test::jest -- --watchAll",
     "eslint": "eslint --ext .js src/",
     "generate": "node ./src/service/service.js --generate 10",
-    "server": "nodemon ./src/service/service.js --server 3000",
+    "server": "LOG_LEVEL=error nodemon ./src/service/service.js --server 3000",
+    "server::debug": "LOG_LEVEL=debug nodemon ./src/service/service.js --server 3000 | ./node_modules/.bin/pino-pretty",
     "start-front-server": "nodemon ./src/express/index.js"
   },
   "repository": {
@@ -25,6 +26,8 @@
     "eslint-config-htmlacademy": "0.5.2",
     "jest": "26.0.1",
     "nodemon": "2.0.4",
+    "pino-pretty": "4.0.0",
+    "pino-tee": "0.3.0",
     "supertest": "4.0.2"
   },
   "dependencies": {

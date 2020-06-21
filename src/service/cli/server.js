@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require(`express`);
-const {logger} = require(`../../utils`);
 const {
   DEFAULT_API_PORT,
   HttpCode,
@@ -10,16 +9,30 @@ const {
 } = require(`../../constants`);
 const createApi = require(`../api`);
 const getMockData = require(`../lib/get-mock-data`);
+const {getLogger} = require(`../lib/logger`);
+
+const logger = getLogger();
 
 const createApp = async (data) => {
   const app = express();
   const apiRoutes = await createApi(data);
 
+  app.use((req, res, next) => {
+    logger.debug(`Requested url: ${req.url}`);
+
+    next();
+  });
+
   app.use(express.json());
   app.use(API_PREFIX, apiRoutes);
-  app.use((req, res) => res
-    .status(HttpCode.NOT_FOUND)
-    .send(`Not found`));
+
+  app.use((req, res) => {
+    logger.error(`Not found url: ${req.url}`);
+
+    return res
+      .status(HttpCode.NOT_FOUND)
+      .send(`Not found`);
+  });
 
   return app;
 };
@@ -35,7 +48,7 @@ const run = async (args) => {
         logger.error(Message.serverStartError(port, err));
       }
 
-      return logger.success(Message.listenOnPort(port));
+      return logger.info(Message.listenOnPort(port));
     });
   } catch (err) {
     logger.error(Message.serverStartError(port, err));
