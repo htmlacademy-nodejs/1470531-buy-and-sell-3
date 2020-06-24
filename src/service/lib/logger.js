@@ -11,15 +11,15 @@ const prettyStream = pinoms.prettyStream({
   },
   prettifier: require(`pino-pretty`)
 });
+const level = process.env.LOG_LEVEL || `info`;
 const streams = [
-  {stream: fs.createWriteStream(`./src/service/logs/logs.txt`)},
-  {stream: prettyStream}
+  {level, stream: fs.createWriteStream(`./src/service/logs/logs.txt`)},
+  {level, stream: prettyStream}
 ];
-
 
 const logger = pinoms({
   name: `pino-and-express`,
-  level: process.env.LOG_LEVEL || `debug`,
+  level,
 }, pinoms.multistream(streams));
 
 module.exports = {

@@ -11,7 +11,7 @@
     "eslint": "eslint --ext .js src/",
     "generate": "node ./src/service/service.js --generate 10",
     "server": "LOG_LEVEL=error nodemon ./src/service/service.js --server 3000",
-    "server::debug": "LOG_LEVEL=debug nodemon ./src/service/service.js --server 3000 | pino-pretty",
+    "server::debug": "LOG_LEVEL=debug nodemon ./src/service/service.js --server 3000",
     "start-front-server": "nodemon ./src/express/index.js"
   },
   "repository": {

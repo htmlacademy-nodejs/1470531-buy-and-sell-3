@@ -20,6 +20,10 @@ const createApp = async (data) => {
   app.use((req, res, next) => {
     logger.debug(`Requested url: ${req.url}`);
 
+    res.on(`finish`, () => {
+      logger.info(`Response status code: ${res.statusCode}`);
+    });
+
     next();
   });
 
