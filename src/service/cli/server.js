@@ -1,52 +1,67 @@
 'use strict';
 
 const express = require(`express`);
-const fs = require(`fs`).promises;
-const {logger} = require(`../../utils`);
 const {
-  FILE_NAME,
   DEFAULT_API_PORT,
   HttpCode,
   Message,
   API_PREFIX
 } = require(`../../constants`);
-const routes = require(`../api`);
+const createApi = require(`../api`);
+const getMockData = require(`../lib/get-mock-data`);
+const {getLogger} = require(`../lib/logger`);
 
-const app = express();
+const logger = getLogger();
 
-app.use(express.json());
-app.use(API_PREFIX, routes);
+const createApp = async (data) => {
+  const app = express();
+  const apiRoutes = await createApi(data);
 
-app.get(`/offers`, async (req, res) => {
+  app.use((req, res, next) => {
+    logger.debug(`Requested url: ${req.url}`);
+
+    res.on(`finish`, () => {
+      logger.info(`Response status code: ${res.statusCode}`);
+    });
+
+    next();
+  });
+
+  app.use(express.json());
+  app.use(API_PREFIX, apiRoutes);
+
+  app.use((req, res) => {
+    logger.error(`Not found url: ${req.url}`);
+
+    return res
+      .status(HttpCode.NOT_FOUND)
+      .send(`Not found`);
+  });
+
+  return app;
+};
+
+const run = async (args) => {
+  const port = Number.parseInt(args, 10) || DEFAULT_API_PORT;
+  const mockData = await getMockData();
+  const app = await createApp(mockData);
+
   try {
-    const fileContent = await fs.readFile(FILE_NAME);
-    const mocks = JSON.parse(fileContent);
+    app.listen(DEFAULT_API_PORT, (err) => {
+      if (err) {
+        logger.error(Message.serverStartError(port, err));
+      }
 
-    res.json(mocks);
+      return logger.info(Message.listenOnPort(port));
+    });
   } catch (err) {
-    res.status(HttpCode.INTERNAL_SERVER_ERROR).send(err);
+    logger.error(Message.serverStartError(port, err));
   }
-});
+};
 
-app.use((req, res) => res
-  .status(HttpCode.NOT_FOUND)
-  .send(`Not found`));
 
 module.exports = {
   name: `--server`,
-  run(args) {
-    const port = Number.parseInt(args, 10) || DEFAULT_API_PORT;
-
-    try {
-      app.listen(DEFAULT_API_PORT, (err) => {
-        if (err) {
-          logger.error(Message.serverStartError(port, err));
-        }
-
-        return logger.success(Message.listenOnPort(port));
-      });
-    } catch (err) {
-      logger.error(Message.serverStartError(port, err));
-    }
-  }
+  run,
+  createApp
 };
