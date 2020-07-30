@@ -2,7 +2,7 @@
 
 const fs = require(`fs`).promises;
 const {nanoid} = require(`nanoid`);
-const {shuffle, getRandomInt, logger} = require(`../../utils`);
+const {shuffle, getRandomInt, getLeadingZero, logger} = require(`../../utils`);
 const {
   DEFAULT_COUNT,
   FILE_NAME,
@@ -20,7 +20,7 @@ const {
 } = require(`../../constants`);
 
 const getCategories = (data) => [...new Set(
-    Array(getRandomInt(0, data.length - 1)).fill({}).map(
+    Array(getRandomInt(1, 6)).fill({}).map(
         () => data[getRandomInt(0, data.length - 1)]
     )
 )];
@@ -54,7 +54,8 @@ const getOffers = (count = DEFAULT_COUNT, titles, categories, sentences, comment
           id: nanoid(MAX_ID_LENGTH),
           comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments),
           title: titles[getRandomInt(0, titles.length - 1)],
-          picture: `item${getRandomInt(pictureSettings.min, pictureSettings.max)}.jpg`,
+          picture: `item${getLeadingZero(getRandomInt(pictureSettings.min, pictureSettings.max))}.jpg`,
+          picture2x: `item${getLeadingZero(getRandomInt(pictureSettings.min, pictureSettings.max))}@2x.jpg 2x`,
           description: shuffle(sentences).slice(1, 5).join(` `),
           type: OFFER_TYPES[getRandomInt()],
           sum: getRandomInt(SumRestrict.min, SumRestrict.max),
