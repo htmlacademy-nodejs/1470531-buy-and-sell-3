@@ -11,7 +11,7 @@ const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const FILE_COMMENTS_PATH = `./data/comments.txt`;
 
-const OFFER_TYPES = [`offer`, `sale`];
+const OFFER_TYPES = [`куплю`, `продам`];
 
 const MAX_ID_LENGTH = 6;
 
