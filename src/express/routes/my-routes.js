@@ -1,10 +1,24 @@
 'use strict';
 
 const {Router} = require(`express`);
+const DataService = require(`../data-service/data-service`);
 
 const registerRoutes = new Router();
 
-registerRoutes.get(`/`, (req, res) => res.render(`my/my-tickets`));
-registerRoutes.get(`/comments`, (req, res) => res.render(`my/comments`));
+registerRoutes.get(`/`, async (req, res) => {
+  const offers = await DataService.getData(`offers`);
+
+  res.render(`my/my-tickets`, {
+    offers
+  });
+});
+
+registerRoutes.get(`/comments`, async (req, res) => {
+  const offers = await DataService.getLastThreeOffersWithComments();
+
+  res.render(`my/comments`, {
+    offers
+  });
+});
 
 module.exports = registerRoutes;

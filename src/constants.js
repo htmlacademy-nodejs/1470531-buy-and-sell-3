@@ -10,6 +10,8 @@ const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const FILE_COMMENTS_PATH = `./data/comments.txt`;
+const FILE_NAMES_PATH = `./data/names.txt`;
+const FILE_SURNAMES_PATH = `./data/surnames.txt`;
 
 const OFFER_TYPES = [`куплю`, `продам`];
 
@@ -20,6 +22,11 @@ const MAX_COMMENTS = 4;
 const pictureSettings = {
   min: 1,
   max: 16,
+};
+
+const avatarSettings = {
+  min: 1,
+  max: 4,
 };
 
 const SumRestrict = {
@@ -59,12 +66,15 @@ const HttpCode = {
 
 module.exports = {
   API_PREFIX,
+  avatarSettings,
   DEFAULT_COUNT,
   FILE_NAME,
   FILE_SENTENCES_PATH,
   FILE_TITLES_PATH,
   FILE_CATEGORIES_PATH,
   FILE_COMMENTS_PATH,
+  FILE_NAMES_PATH,
+  FILE_SURNAMES_PATH,
   MAX_COMMENTS,
   MAX_ID_LENGTH,
   OFFER_TYPES,
