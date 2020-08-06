@@ -1,8 +1,7 @@
 'use strict';
 
 const axios = require(`axios`);
-
-const API_URL = `http://localhost:3000/api`;
+const {API_URL} = require(`../../constants`);
 
 class DataService {
   static async getAllOffers() {
@@ -40,6 +39,16 @@ class DataService {
 
       return await DataService.getCommentsByOffersArray(lastThreeOffers);
 
+    } catch (err) {
+      return console.error(err);
+    }
+  }
+
+  static async getCategories() {
+    try {
+      const response = await axios.get(`${API_URL}/category`);
+
+      return response.data;
     } catch (err) {
       return console.error(err);
     }

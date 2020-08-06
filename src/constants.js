@@ -1,6 +1,7 @@
 'use strict';
 
 const API_PREFIX = `/api`;
+const API_URL = `http://localhost:3000/api`;
 
 const DEFAULT_COUNT = 1;
 
@@ -65,6 +66,7 @@ const HttpCode = {
 };
 
 module.exports = {
+  API_URL,
   API_PREFIX,
   avatarSettings,
   DEFAULT_COUNT,

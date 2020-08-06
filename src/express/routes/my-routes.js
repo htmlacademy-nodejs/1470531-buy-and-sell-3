@@ -6,7 +6,7 @@ const DataService = require(`../data-service/data-service`);
 const registerRoutes = new Router();
 
 registerRoutes.get(`/`, async (req, res) => {
-  const offers = await DataService.getData(`offers`);
+  const offers = await DataService.getAllOffers();
 
   res.render(`my/my-tickets`, {
     offers
