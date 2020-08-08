@@ -1,16 +1,40 @@
 'use strict';
 
 const axios = require(`axios`);
-const {API_URL} = require(`../../constants`);
+
+const API_URL = `http://localhost:3000/api`;
 
 class DataService {
+  constructor(offer) {
+    this.offer = offer;
+  }
+
   static async getAllOffers() {
     try {
       const response = await axios.get(`${API_URL}/offers`);
 
       return response.data;
     } catch (error) {
-      return console.error(error);
+      console.error(error);
+
+      return [];
+    }
+  }
+
+  async saveNewOffer() {
+    try {
+      return await axios.post(`${API_URL}/offers`, {
+        title: this.offer.title,
+        description: this.offer.description,
+        category: typeof this.offer.category === `string` ? [this.offer.category] : this.offer.category || ``,
+        sum: this.offer.sum,
+        type: this.offer.type,
+        picture: this.offer.picture,
+        picture2x: this.offer.picture
+      });
+
+    } catch (err) {
+      return console.error(err);
     }
   }
 
@@ -29,18 +53,20 @@ class DataService {
     return offersWithComments;
   }
 
-  static async getLastThreeOffersWithComments() {
+  static async getLastOffersWithComments(count = 3) {
     try {
       const offers = await DataService.getAllOffers();
-      const lastThreeOffers = offers.slice(0, 3).map((offer) => ({
+      const lastOffers = offers.slice(0, count).map((offer) => ({
         ...offer,
         comments: null
       }));
 
-      return await DataService.getCommentsByOffersArray(lastThreeOffers);
+      return await DataService.getCommentsByOffersArray(lastOffers);
 
     } catch (err) {
-      return console.error(err);
+      console.error(err);
+
+      return [];
     }
   }
 
@@ -50,7 +76,21 @@ class DataService {
 
       return response.data;
     } catch (err) {
-      return console.error(err);
+      console.error(err);
+
+      return [];
+    }
+  }
+
+  static async getSearchResults(query) {
+    try {
+      const response = await axios.get(`${API_URL}${query}`);
+
+      return response.data;
+    } catch (err) {
+      console.error(err);
+
+      return [];
     }
   }
 }

@@ -14,7 +14,7 @@ registerRoutes.get(`/`, async (req, res) => {
 });
 
 registerRoutes.get(`/comments`, async (req, res) => {
-  const offers = await DataService.getLastThreeOffersWithComments();
+  const offers = await DataService.getLastOffersWithComments();
 
   res.render(`my/comments`, {
     offers

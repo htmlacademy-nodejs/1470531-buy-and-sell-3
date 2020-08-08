@@ -4,7 +4,6 @@ const {Router} = require(`express`);
 const path = require(`path`);
 const multer = require(`multer`);
 const DataService = require(`../data-service/data-service`);
-const Offer = require(`../data-service/offer`);
 const {HttpCode} = require(`../../constants`);
 
 const storage = multer.diskStorage({
@@ -46,7 +45,7 @@ offersRoutes.post(`/add`, upload.single(`avatar`), async (req, res) => {
   }
 
   try {
-    const offer = new Offer(newOffer);
+    const offer = new DataService(newOffer);
     const response = await offer.saveNewOffer();
 
     if (response && response.statusCode === HttpCode.BAD_REQUEST) {
