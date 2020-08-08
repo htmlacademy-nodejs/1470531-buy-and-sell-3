@@ -8,6 +8,9 @@ block content
         .ticket-form__tile
           form.ticket-form__form.form(action='/offers/add', method='post', enctype='multipart/form-data', autocomplete='off')
             .ticket-form__avatar-container.js-preview-container
+              if fileError
+                .error__container
+                  span.error__message Ошибка загрузки файла
               .ticket-form__avatar.js-preview
               .ticket-form__field-avatar
                 input#avatar.visually-hidden.js-file-field(type='file', name='avatar')

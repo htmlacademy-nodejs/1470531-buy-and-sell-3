@@ -39,6 +39,7 @@ offersRoutes.post(`/add`, upload.single(`avatar`), async (req, res) => {
 
   if (!req.file) {
     return res.render(`offers/new-ticket`, {
+      fileError: true,
       categories,
       newOffer
     });
