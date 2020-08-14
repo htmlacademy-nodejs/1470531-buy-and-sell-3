@@ -1,6 +1,7 @@
 'use strict';
 
 const API_PREFIX = `/api`;
+const API_URL = `http://localhost:3000/api`;
 
 const DEFAULT_COUNT = 1;
 
@@ -43,6 +44,11 @@ const ExitCode = {
   error: 1
 };
 
+const TimeInMilliseconds = {
+  second: 1000,
+  minute: 1000 * 60
+};
+
 const Message = {
   notFound: `Sorry, page not found`,
   fileCreated: `Operation success. File created.`,
@@ -66,6 +72,7 @@ const HttpCode = {
 
 module.exports = {
   API_PREFIX,
+  API_URL,
   avatarSettings,
   DEFAULT_COUNT,
   FILE_NAME,
@@ -80,6 +87,7 @@ module.exports = {
   OFFER_TYPES,
   pictureSettings,
   SumRestrict,
+  TimeInMilliseconds,
   USER_ARGV_INDEX,
   DEFAULT_COMMAND,
   ExitCode,

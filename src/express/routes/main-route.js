@@ -1,12 +1,12 @@
 'use strict';
 
 const {Router} = require(`express`);
-const DataService = require(`../data-service/data-service`);
+const OfferService = require(`../data-service/offer-service`);
 
 const mainRoute = new Router();
 
 mainRoute.get(`/`, async (req, res) => {
-  const offers = await DataService.getAllOffers();
+  const offers = await OfferService.getAllOffers();
 
   res.render(`main`, {
     offers

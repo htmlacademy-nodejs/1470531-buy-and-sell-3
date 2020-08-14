@@ -1,17 +1,21 @@
 'use strict';
 
 const axios = require(`axios`);
+const {API_URL, TimeInMilliseconds} = require(`../../constants`);
 
-const API_URL = `http://localhost:3000/api`;
+const instance = axios.create({
+  baseURL: API_URL,
+  timeout: TimeInMilliseconds.minute
+});
 
-class DataService {
+class OfferService {
   constructor(offer) {
     this.offer = offer;
   }
 
   static async getAllOffers() {
     try {
-      const response = await axios.get(`${API_URL}/offers`);
+      const response = await instance.get(`/offers`);
 
       return response.data;
     } catch (error) {
@@ -23,7 +27,7 @@ class DataService {
 
   async saveNewOffer() {
     try {
-      return await axios.post(`${API_URL}/offers`, {
+      return await instance.post(`/offers`, {
         title: this.offer.title,
         description: this.offer.description,
         category: typeof this.offer.category === `string` ? [this.offer.category] : this.offer.category || ``,
@@ -42,7 +46,7 @@ class DataService {
     const offersWithComments = [];
 
     for (let offer of offers) {
-      const response = await axios.get(`${API_URL}/offers/${offer.id}/comments`);
+      const response = await instance.get(`/offers/${offer.id}/comments`);
 
       offersWithComments.push({
         ...offer,
@@ -55,13 +59,13 @@ class DataService {
 
   static async getLastOffersWithComments(count = 3) {
     try {
-      const offers = await DataService.getAllOffers();
+      const offers = await OfferService.getAllOffers();
       const lastOffers = offers.slice(0, count).map((offer) => ({
         ...offer,
         comments: null
       }));
 
-      return await DataService.getCommentsByOffersArray(lastOffers);
+      return await OfferService.getCommentsByOffersArray(lastOffers);
 
     } catch (err) {
       console.error(err);
@@ -72,7 +76,7 @@ class DataService {
 
   static async getCategories() {
     try {
-      const response = await axios.get(`${API_URL}/category`);
+      const response = await instance.get(`/category`);
 
       return response.data;
     } catch (err) {
@@ -84,7 +88,7 @@ class DataService {
 
   static async getSearchResults(query) {
     try {
-      const response = await axios.get(`${API_URL}${query}`);
+      const response = await instance.get(`${query}`);
 
       return response.data;
     } catch (err) {
@@ -95,4 +99,4 @@ class DataService {
   }
 }
 
-module.exports = DataService;
+module.exports = OfferService;
