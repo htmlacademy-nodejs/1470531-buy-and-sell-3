@@ -5,7 +5,7 @@ const {API_URL, TimeInMilliseconds} = require(`../../constants`);
 
 const instance = axios.create({
   baseURL: API_URL,
-  timeout: TimeInMilliseconds.minute
+  timeout: TimeInMilliseconds.second * 30
 });
 
 class OfferService {
