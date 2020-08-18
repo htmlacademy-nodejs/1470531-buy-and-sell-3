@@ -1,6 +1,7 @@
 'use strict';
 
 const API_PREFIX = `/api`;
+const API_URL = `http://localhost:3000/api`;
 
 const DEFAULT_COUNT = 1;
 
@@ -10,8 +11,10 @@ const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const FILE_COMMENTS_PATH = `./data/comments.txt`;
+const FILE_NAMES_PATH = `./data/names.txt`;
+const FILE_SURNAMES_PATH = `./data/surnames.txt`;
 
-const OFFER_TYPES = [`offer`, `sale`];
+const OFFER_TYPES = [`куплю`, `продам`];
 
 const MAX_ID_LENGTH = 6;
 
@@ -20,6 +23,11 @@ const MAX_COMMENTS = 4;
 const pictureSettings = {
   min: 1,
   max: 16,
+};
+
+const avatarSettings = {
+  min: 1,
+  max: 4,
 };
 
 const SumRestrict = {
@@ -34,6 +42,11 @@ const DEFAULT_COMMAND = `--help`;
 const ExitCode = {
   success: 0,
   error: 1
+};
+
+const TimeInMilliseconds = {
+  second: 1000,
+  minute: 1000 * 60
 };
 
 const Message = {
@@ -59,17 +72,22 @@ const HttpCode = {
 
 module.exports = {
   API_PREFIX,
+  API_URL,
+  avatarSettings,
   DEFAULT_COUNT,
   FILE_NAME,
   FILE_SENTENCES_PATH,
   FILE_TITLES_PATH,
   FILE_CATEGORIES_PATH,
   FILE_COMMENTS_PATH,
+  FILE_NAMES_PATH,
+  FILE_SURNAMES_PATH,
   MAX_COMMENTS,
   MAX_ID_LENGTH,
   OFFER_TYPES,
   pictureSettings,
   SumRestrict,
+  TimeInMilliseconds,
   USER_ARGV_INDEX,
   DEFAULT_COMMAND,
   ExitCode,

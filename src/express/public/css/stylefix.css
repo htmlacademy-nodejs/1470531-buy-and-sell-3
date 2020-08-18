@@ -1,0 +1,13 @@
+.ticket-card__title {
+  overflow: hidden;
+}
+
+.error__container {
+  width: 100%;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.error__message {
+  color: tomato;
+}

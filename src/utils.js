@@ -3,10 +3,12 @@
 const chalk = require(`chalk`);
 
 const getRandomInt = (min = 0, max = 1) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  const rand = min + Math.random() * (max + 1 - min);
+
+  return Math.floor(rand);
 };
+
+const getLeadingZero = (num, maxNumWithoutZero = 10) => num < maxNumWithoutZero ? `0` + num : num;
 
 const shuffle = (someArray) => {
   for (let i = someArray.length - 1; i > 0; i--) {
@@ -26,6 +28,7 @@ const logger = {
 
 module.exports = {
   getRandomInt,
+  getLeadingZero,
   shuffle,
   logger
 };
